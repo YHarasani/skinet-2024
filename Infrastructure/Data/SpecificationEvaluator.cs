@@ -1,5 +1,4 @@
-using System;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Interfaces;
 
 namespace Infrastructure.Data;
@@ -13,9 +12,9 @@ public class SpecificationEvaluator<T> where T : BaseEntity
             query = query.Where(spec.Criteria); // x => x.Brand == brand
         }
 
-        if (spec.orderBy != null)
+        if (spec.OrderBy != null)
         {
-            query = query.OrderBy(spec.orderBy);
+            query = query.OrderBy(spec.OrderBy);
         }
 
         if (spec.OrderByDescending != null)
@@ -23,9 +22,14 @@ public class SpecificationEvaluator<T> where T : BaseEntity
             query = query.OrderByDescending(spec.OrderByDescending);
         }
 
-        if (spec.IsDistinct)
+        if (spec.IsDistinct) 
         {
             query = query.Distinct();
+        }
+        
+        if (spec.IsPagingEnabled) 
+        {
+            query = query.Skip(spec.Skip).Take(spec.Take);
         }
 
         return query;
@@ -39,9 +43,9 @@ public class SpecificationEvaluator<T> where T : BaseEntity
             query = query.Where(spec.Criteria); // x => x.Brand == brand
         }
 
-        if (spec.orderBy != null)
+        if (spec.OrderBy != null)
         {
-            query = query.OrderBy(spec.orderBy);
+            query = query.OrderBy(spec.OrderBy);
         }
 
         if (spec.OrderByDescending != null)
@@ -59,6 +63,11 @@ public class SpecificationEvaluator<T> where T : BaseEntity
         if (spec.IsDistinct)
         {
             selectQuery = selectQuery?.Distinct();
+        }
+
+        if (spec.IsPagingEnabled) 
+        {
+            selectQuery = selectQuery?.Skip(spec.Skip).Take(spec.Take);
         }
 
         return selectQuery ?? query.Cast<TResult>();
