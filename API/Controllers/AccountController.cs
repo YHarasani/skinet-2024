@@ -12,7 +12,7 @@ namespace API.Controllers;
 
 public class AccountController(SignInManager<AppUser> signInManager) : BaseApiController
 {
-    [HttpPost("Register")]
+    [HttpPost("register")]
     public async Task<ActionResult> Register(RegisterDto registerDto)
     {
         var user = new AppUser
@@ -63,7 +63,7 @@ public class AccountController(SignInManager<AppUser> signInManager) : BaseApiCo
         });
     }
 
-    [HttpGet]
+    [HttpGet("auth-status")]
     public ActionResult GetAuthState()
     {
         return Ok(new {IsAuthenticated = User.Identity?.IsAuthenticated ?? false});
