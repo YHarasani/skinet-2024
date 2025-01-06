@@ -1,0 +1,16 @@
+version: "3.8" # Defines the version of the Docker Compose syntax
+
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n # The image to use for the container
+    container_name: n8n # Optional, sets the container name
+    ports:
+      - "5678:5678" # Maps port 5678 on your host to port 5678 in the container
+    volumes:
+      - n8n_data:/home/node/.n8n # Mounts a volume for persistent data
+    stdin_open: true # Equivalent to -i flag
+    tty: true # Equivalent to -t flag
+    restart: unless-stopped # Optional, auto-restarts unless manually stopped
+
+volumes:
+  n8n_data: # Define the named volume for persistent data
